@@ -4,18 +4,19 @@
 #include<math.h>
 
 main(){
-
+    
     FILE *fp = fopen("data.txt","r");
     int arr[10][2], count=0, i=0, j=0;
     char line[20],line1[20],c;
 
+    //to get the number of data points in the file
     while((c=fgetc(fp)) != EOF)
     {
         if(c=='\n')
             count++;
     }
     count++;
-    rewind(fp);
+    rewind(fp);     // to go to the start of the file again
 
     float sdx, sdy, meanx, meany, tempx=0, tempy=0;
     float datax[count], datay[count], sumx=0, sumy=0;
@@ -25,11 +26,11 @@ main(){
     //retrieving data from file
     while(!feof(fp))
     {
-        fscanf(fp,"%s %s",line,line1);
-        datax[i] = atof(line);
+        fscanf(fp,"%s %s",line,line1);            //retrieving the two data points
+        datax[i] = atof(line);                    //conversion of text to number
         datay[i] = atof(line1);
-        printf(" %f | %f\n",datax[i],datay[i]);
-        sumx += datax[i];
+        printf(" %f | %f\n",datax[i],datay[i]); 
+        sumx += datax[i];                         //sumx, sumy to be used in mean cal.
         sumy += datay[i];
         i++;
     }
@@ -38,7 +39,7 @@ main(){
     meanx = sumx/count;
     meany = sumy/count;
 
-    //calculation of summation(data-mean)^2
+    //calculation of summation(data-mean)^2 to be used in standard deviation cal.
     i=0;
     while(i<count)
     {
@@ -51,7 +52,7 @@ main(){
     sdx = sqrt(tempx/(count-1));
     sdy = sqrt(tempy/(count-1));
 
-    //preparing the standardized data
+    //preparing the standardized data, summation((data - mean)/sd)
     i=0;
     while(i<count)
     {
